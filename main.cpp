@@ -11,12 +11,16 @@
 #include <fstream>
 #include <cstdio>
 #include <stdio.h>
+#include <boost/asio.hpp>
+//#include <boost/date_time.hpp>
 
 //#include <boost/regex.hpp>
+
 using namespace std;
 const string emp_name = "/Users/imranchamieh/Documents/DevProject /EmployeeRecord/EmployeeRecord/EmployeeName.txt";
+// /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-// get the number of employee
+// get number of employees
 int getNrEmployee(){
     
     ifstream NameEmployee(emp_name);
@@ -34,6 +38,7 @@ int getNrEmployee(){
 
 int num_emp = getNrEmployee(); // initial number of employees
 
+// /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 // Add an employee
 void AddEmployee(string name, string date, int salary){
@@ -43,6 +48,7 @@ void AddEmployee(string name, string date, int salary){
     NameEmployee<<num_emp<<"\t"<< name <<"\t"<<date<<"\t"<<salary <<endl;
     NameEmployee.close();
 }
+// /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 // Show all employees
 
@@ -57,6 +63,7 @@ void getAllEmployee(){
 };
 
 
+// /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 // Get employee info
 void getEmployee(int id_nr)
@@ -77,109 +84,193 @@ void getEmployee(int id_nr)
 };
 
 
+// /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 // Edit an employee
-void EditEmployee(int nr, string name); // edite name by given nr
-void EditEmployee(int nr, int salary);  // edite salary by given number
-void EditEmployee(int nr, string date); // edit date by given number
-void EditEmployee(string name, int salary); // edite salary by given name
-void EditEmployee(string name, string date); // edite date by given number
+void EditName(int id_nr, string NewName)// edite name by given nr
+{
+
+  ifstream infile;
+  infile.open(emp_name,ios::in);
+
+  if(infile){
+
+    ofstream outfile;
+
+    outfile.open("tempfile.txt");
+
+    int id, salary;
+    string name, birth;
+
+    while(infile>>id >> name >>birth >>salary){
+
+       if(id==id_nr) {
+           outfile<<id<<"\t"<< NewName <<"\t"<<birth<<"\t"<<salary <<endl;
+       }
+        else
+            outfile<<id<<"\t"<< name <<"\t"<<birth<<"\t"<<salary <<endl;
+
+    }
+
+    outfile.close();
+
+  }
+
+  infile.close();
+    
+    const char * p = emp_name.c_str();
+
+    remove(p);
+    rename("tempfile.txt",p);
+
+}
+
+int countLine(char* sourcefile){
+
+  ifstream infile;
+
+  infile.open(sourcefile,ios::in);
+
+  char data[100];
+
+  int line=0;
+
+  while(infile.getline(data,100)) line++;
+
+  return line;
+
+}
+
+// /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+void EditSalary(int id_nr, int NewSalary)  // edite salary by given number
+{
+
+  ifstream infile;
+  infile.open(emp_name,ios::in);
+
+  if(infile){
+
+    ofstream outfile;
+
+    outfile.open("tempfile.txt");
+
+    int id, salary;
+    string name, birth;
+
+    while(infile>>id >> name >>birth >>salary){
+
+       if(id==id_nr) {
+           outfile<<id<<"\t"<< name <<"\t"<<birth<<"\t"<<NewSalary <<endl;
+       }
+        else
+            outfile<<id<<"\t"<< name <<"\t"<<birth<<"\t"<<salary <<endl;
+
+    }
+
+    outfile.close();
+
+  }
+
+  infile.close();
+    
+    const char * p = emp_name.c_str();
+
+    remove(p);
+    rename("tempfile.txt",p);
+
+}
+
+
+// /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+void EditEmployee(int nr, string NewBirth); // edit date by given number
 
 
 
 
-// void removeLine(string emp_name,int id_nr){
+// /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-//   ifstream infile;
+ void removeEmployee(int id_nr){
 
-//   auto tempPath="/Users/imranchamieh/Documents/DevProject /EmployeeRecord/EmployeeRecord/tempfile.txt";
+   ifstream infile;
+   infile.open(emp_name,ios::in);
 
-//   infile.open(emp_name,ios::in);
+   if(infile){
 
-//   if(infile){
+     ofstream outfile;
 
-//     ofstream outfile;
+     outfile.open("tempfile.txt");
 
-//     outfile.open(tempPath,ios::out);
+     int id, salary;
+     string name, birth;
 
-//     int id, salary;
-//     string name, birth;
+     while(infile>>id >> name >>birth >>salary){
 
-//     while(infile>>id >> name >>birth >>salary){
+        if(id==id_nr) continue;
 
-//        if(id==id_nr) continue;
+        outfile<<id<<"\t"<< name <<"\t"<<birth<<"\t"<<salary <<endl;
 
-//        outfile<<id<<"\t"<< name <<"\t"<<birth<<"\t"<<salary <<endl;
+     }
 
-//     }
+     outfile.close();
 
-//     outfile.close();
+   }
 
-//   }
+   infile.close();
+     
+     const char * p = emp_name.c_str();
 
-//   infile.close();
+     remove(p);
+     rename("tempfile.txt",p);
 
-//  remove(emp_name);
-
-//  rename(tempPath,emp_name);
-
-// }
-
-// int countLine(char* sourcefile){
-
-//   ifstream infile;
-
-//   infile.open(sourcefile,ios::in);
-
-//   char data[100];
-
-//   int line=0;
-
-//   while(infile.getline(data,100)) line++;
-
-//   return line;
-
-// }
+ }
 
 
 
+// /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 int main(int argc, const char * argv[]) {
     
-//        AddEmployee("imran", "21.03.2020", 2000);
-//        AddEmployee("ahmad", "00.00.2020", 4567);
-//         AddEmployee("samer", "00.00.2020", 6543);
-//         AddEmployee("johan", "00.00.2030", 98776);
-//    getEmployee(1);
+   
+    string name = "Muster";
+    string birth = "02.02.2020";
+    int salary = 99999;
+    
+    
+//    add an employee
+    AddEmployee(name, birth, salary);
+    
+//    Print all empoloyees data
     getAllEmployee();
- 
+    
+// Print number of employees
     cout<<"number of employee is: "<<getNrEmployee()<<endl;
+    
+//    remove employss number 2
+    
+    removeEmployee(2);
+//    Edit employee name
+    
+    EditName(1, "mohammad");
+//    Edit employee salary
+    
+    EditSalary(3, 000);
+//    Print all employees data
+    
+    getAllEmployee();
+//    Print number of employees
+       cout<<"number of employee is: "<<getNrEmployee()<<endl;
+    
 
     return 0;
 }
 
 
     
-//    ofstream BirthEmployee(emp_birth,ios::app);
-//    BirthEmployee<<num_emp<<"\t"<< date <<endl;
-//    BirthEmployee.close();
-//
-//    ofstream SalaryEmployee(emp_salary);
-//    SalaryEmployee<<num_emp<<"\t"<< salary <<endl;
-//    SalaryEmployee.close();
-    
 
-
-//    int num_emp = getNrEmployee();
-    // Creat data files
-//    ifstream NameEmployee(emp_name, ios_base::openmode mode);
-//    NameEmployee.close();
-//
-//    ofstream BirthEmployee(emp_birth);
-//    BirthEmployee.close();
-//
-//    ofstream SalaryEmployee(emp_salary);
-//    SalaryEmployee.close();
     
     
 //    AddEmployee("imran", "21.03.2020", 2000);
