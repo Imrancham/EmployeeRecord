@@ -61,14 +61,17 @@ int RwdeService::getNrEmployee()
            }
     
            NameEmployee.close();
-    return Nr_emp;
+    return Nr_emp ;
     
 }
 // /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 void RwdeService::AddEmployee(const Employee &emp){
+    // give the employee new number at the record
+    auto employees = GetAllEmployees();
+    int const  num_emp = employees.end()->GetID() + 1;
     
-    int const  num_emp = getNrEmployee() + 1;
+    // register the employee at the record.
     std::ofstream NameEmployee(emp_name,std::ios::app);
     NameEmployee<<num_emp<<"\t"<< emp.GetName() <<"\t"<<emp.GetName()<<"\t"<<emp.GetSalary() <<std::endl;
     NameEmployee.close();
@@ -118,11 +121,32 @@ std::vector<Employee> RwdeService::GetAllEmployees()
         int id, salary;
         std::string name, birth;
         femp>>id >>name >> birth >>salary;
-        Employee mustr(id, name, salary, birth);
+        Employee mustr(id, name, birth, salary);
         emp.push_back(mustr);
         
     }
     femp.close();
+    emp.erase(emp.end() - 1);
 
     return emp;
+}
+// /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+Employee RwdeService::GetEmployee(int id){
+    
+    std::ifstream femp(emp_name);
+    
+    while (femp) {
+        int em_id, salary;
+        std::string name, birth;
+        femp>>em_id >>name >> birth >>salary;
+        if (em_id == id) {
+            Employee mustr(id, name, birth, salary) ;
+            return mustr;
+        }
+        
+    }
+    femp.close();
+    Employee mustr(0 , "NN", "birth", 0) ;
+    return mustr;
 }
