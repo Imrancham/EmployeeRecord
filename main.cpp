@@ -10,110 +10,121 @@
 #include <string>
 #include <fstream>
 #include <cstdio>
-#include <stdio.h>
 #include <vector>
 #include "Employee.hpp"
+#include "RwdeService.hpp"
 //#include <boost/asio.hpp>
 //#include <boost/date_time.hpp>
-
 //#include <boost/regex.hpp>
 
 using namespace std;
 
-// /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// get number of employees
 
-
-
-//int num_emp = getNrEmployee(); // initial number of employees
-
-// /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-// Add an employee
-
-// /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-// Show all employees
-
-//void getAllEmployee(){
-//
-//    ifstream NameEmployee(emp_name);
-//      std::string line;
-//       while (getline(NameEmployee,  line)) {
-//           cout<<line<<endl;
-//       }
-//       NameEmployee.close();
-//};
-
-
-// /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-// /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-// ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-// /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-// /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-// /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 int main(int argc, const char * argv[]) {
+
+
+    RwdeService service;
+    cout<< "Number of employees: "<<service.getNrEmployee()<<endl;
     
-   
-//    string name = "Muster";
-//    string birth = "02.02.2020";
-//    int salary = 99999;
+    int id =1;
+    id  = service.getNrEmployee() + 1;
+    string name = "Mann";
+    string birth = "02.02.2020";
+    double salary = 99999;
+    
+    int input =1;
+    while (input ) {
+        cout<<"Choose an operation: \n 1: Add employee \n 2: remove an employee \n 3: Update employee information \n 4: Get an employee \n 5: Get the number of employees \n 0: to leave"<<endl;
+        cin>>input;
+        switch (input) {
+            case 1:{
+                cout<<"Enter Employee's Name: ";
+                cin>>name;
+                cout<<"\n Enter Employee's date of birth :";
+                cin>>birth;
+                cout<<"\n Enter Employee's salary: ";
+                cin>>salary;
+                Employee new_emp(id,name,birth,salary);
+                service.AddEmployee(new_emp);
+                cout<<"'n Employee was successfuly added"<<endl;
+                break;
+            }
+                
+            case 2:{
+                cout<<"Enter Employee's ID number: ";
+                cin>>id;
+                service.DeleteEmployee(id);
+                cout<<"\n Employee was successfuly Deleted"<<endl;
+                break;
+            }
+            
+            case 3:
+            {
+                cout<<"Enter employee's ID and new data: name, salary and date of birth \n";
+                cout<<"Enter employee's id:";
+                cin>>id;
+                cout<<"enter employee's name: ";
+                cin>>name;
+                cout<<"enter employee's slary: ";
+                cin>>salary;
+                cout<<"enter employee's date of birth: ";
+                cin>>birth;
+                
+                Employee update_emp(id,name,birth,salary);
+                service.UpdateEmployee(update_emp);
+                break;
+            }
+            
+                
+            case 4:
+            {
+                cout<<"Enter employee's id: ";
+                cin>>id;
+                service.GetEmployee(id);
+                break;
+            }
+            case 5:
+            {
+                
+                cout<<"There are "<<service.getNrEmployee() <<" employee. ";
+
+                break;
+            }
+            
+                
+            case 0:
+                input =0;
+            break;
+                
+            default:
+                cout<<"Choose a valid  action 1, 2, 3, 4 or 0";
+                break;
+        }
+    }
+    
+//    // Employee object
+//    Employee emp(id, name, birth, salary);
+//    // add ana employee to the record
+//    service.AddEmployee(emp);
+//    // save all emplyee to a vector.
+//    auto employees_vec = service.GetAllEmployees();
 //
+//    // delet emplyee nr:
+//    int nr = 1;
+//    service.DeleteEmployee(nr);
+//    cout<< "Number of employees: "<<service.getNrEmployee()<<endl;
 //
-////    add an employee
-//    AddEmployee(name, birth, salary);
+//    nr = 10;
+//    cout<<"Emp nr "<<nr<< ": "<<employees_vec[nr].GetID()<<endl;
+//    cout<<"Emp name " << nr <<": "<<employees_vec[nr].GetName()<<endl;
 //
-////    Print all empoloyees data
-//    getAllEmployee();
-//
-//// Print number of employees
-//    cout<<"number of employee is: "<<getNrEmployee()<<endl;
-//
-////    remove employss number 2
-//
-//    removeEmployee(2);
-////    Edit employee name
-//
-//    EditName(1, "mohammad");
-////    Edit employee salary
-//
-//    EditSalary(3, 000);
-////    Print all employees data
-//
-//    getAllEmployee();
-////    Print number of employees
-//       cout<<"number of employee is: "<<getNrEmployee()<<endl;
-//
+//    nr = 2;
+//    emp = service.GetEmployee(nr);
+//    cout<<"Name: "<<emp.GetName()<< ",  Salary: "<<emp.GetSalary()<<",  birth: "<<emp.GetBirth()<<endl;
+//    cout<< "Number of employees: "<<service.getNrEmployee()<<endl;
 
     return 0;
 }
 
-
-    
-
-    
-    
-//    AddEmployee("imran", "21.03.2020", 2000);
-//    AddEmployee("ahmad", "00.00.2020", 4567);
-//     AddEmployee("samer", "00.00.2020", 6543);
-//     AddEmployee("johan", "00.00.2030", 98776);
-//
-//    getAllEmployee();
-//        ifstream NameEmployee(emp_name);
-//        string  name, birth;
-//        int id, salary;
-//        while (NameEmployee >> id >>name >> birth >> salary) {
-//            cout<< salary <<endl;
-//        }
-//        NameEmployee.close();
-
-//
 
