@@ -8,6 +8,7 @@
 
 #ifndef Employee_hpp
 #define Employee_hpp
+#pragma once
 
 #include <stdio.h>
 #include <string>
@@ -23,7 +24,7 @@ class Employee
     std::string m_birth;
     
 public:
-    Employee(int id, std::string name, double salary, std::string birth): m_id(id), m_name(name), m_salary(salary), m_birth(birth) {}
+    Employee(int id, std::string name, std::string birth, double salary): m_id(id), m_name(name), m_birth(birth), m_salary(salary) {}
     int GetID() const {return m_id;}
     std::string GetName() const {return m_name;}
     double GetSalary() const {return m_salary;}
